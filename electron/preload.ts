@@ -1,4 +1,4 @@
-import { ipcRenderer, contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 
 /**
  * Using the ipcRenderer directly in the browser through the contextBridge ist not really secure.
@@ -112,7 +112,7 @@ function useLoading() {
   `;
 
   const htmlContent = `
-    <div clas="sk-chase">
+    <div class="sk-chase">
       <div class="sk-chase-dot"></div>
       <div class="sk-chase-dot"></div>
       <div class="sk-chase-dot"></div>
