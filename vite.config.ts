@@ -1,11 +1,11 @@
-import react from '@vitejs/plugin-react';
 import { rmSync } from 'node:fs';
-import { join } from 'path';
-import { ConfigEnv, UserConfig } from 'vite';
-import electron from 'vite-plugin-electron';
-import renderer from 'vite-plugin-electron-renderer';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'path';
+import type { ConfigEnv, UserConfig } from 'vite';
 import pkg from './package.json';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const root = join(__dirname);
 const srcRoot = join(__dirname, 'src');
 rmSync('dist-electron', { recursive: true, force: true });
@@ -19,12 +19,17 @@ const buildElectron = (isDev: boolean) => ({
   }
 });
 
-function plugins(isDev: boolean) {
+async function plugins(isDev: boolean): Promise<Plugin[]> {
   const isWebOnly = process.env.WEB_ONLY === 'true';
+
+  const react = (await import('@vitejs/plugin-react')).default;
 
   if (isWebOnly) {
     return [react()];
   }
+
+  const electron = (await import('vite-plugin-electron')).default;
+  const renderer = (await import('vite-plugin-electron-renderer')).default;
 
   return [
     react(),
@@ -55,13 +60,13 @@ function plugins(isDev: boolean) {
   ];
 }
 
-export default ({ command }: ConfigEnv): UserConfig => {
+export default async ({ command }: ConfigEnv): Promise<UserConfig> => {
   // DEV
   if (command === 'serve') {
     return {
       root: srcRoot,
       base: '/',
-      plugins: plugins(true),
+      plugins: await plugins(true),
       resolve: {
         alias: {
           '/@': srcRoot
@@ -84,7 +89,7 @@ export default ({ command }: ConfigEnv): UserConfig => {
   return {
     root: srcRoot,
     base: './',
-    plugins: plugins(false),
+    plugins: await plugins(false),
     resolve: {
       alias: {
         '/@': srcRoot
