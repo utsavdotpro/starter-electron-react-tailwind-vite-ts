@@ -9,7 +9,7 @@ function App() {
   };
 
   useEffect(() => {
-    window.Main.removeLoading();
+    window.Main?.removeLoading();
   }, []);
 
   return (

@@ -149,8 +149,8 @@ domReady().then(appendLoading);
 
 declare global {
   interface Window {
-    Main: typeof api;
-    ipcRenderer: typeof ipcRenderer;
+    Main?: typeof api;
+    ipcRenderer?: typeof ipcRenderer;
   }
 }
 

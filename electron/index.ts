@@ -2,15 +2,17 @@
 import { join } from 'path';
 
 // Packages
-import { BrowserWindow, app, ipcMain, IpcMainEvent, nativeTheme } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, IpcMainEvent, nativeTheme } from 'electron';
 import isDev from 'electron-is-dev';
 
 const height = 600;
 const width = 800;
 
+let mainWindow: BrowserWindow | null = null;
+
 function createWindow() {
   // Create the browser window.
-  const window = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width,
     height,
     //  change to false to use AppBar
@@ -28,26 +30,33 @@ function createWindow() {
 
   // and load the index.html of the app.
   if (isDev) {
-    window?.loadURL(url);
+    mainWindow?.loadURL(url);
   } else {
-    window?.loadFile(url);
+    mainWindow?.loadFile(url);
   }
-  // Open the DevTools.
-  // window.webContents.openDevTools();
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 
   // For AppBar
   ipcMain.on('minimize', () => {
-    // eslint-disable-next-line no-unused-expressions
-    window.isMinimized() ? window.restore() : window.minimize();
-    // or alternatively: win.isVisible() ? win.hide() : win.show()
+    if (mainWindow) {
+      // eslint-disable-next-line no-unused-expressions
+      mainWindow.isMinimized() ? mainWindow.restore() : mainWindow.minimize();
+    }
   });
   ipcMain.on('maximize', () => {
-    // eslint-disable-next-line no-unused-expressions
-    window.isMaximized() ? window.restore() : window.maximize();
+    if (mainWindow) {
+      // eslint-disable-next-line no-unused-expressions
+      mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
+    }
   });
 
   ipcMain.on('close', () => {
-    window.close();
+    if (mainWindow) {
+      mainWindow.close();
+    }
   });
 
   nativeTheme.themeSource = 'dark';
@@ -58,6 +67,26 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
+
+  // Enable DevTools toggle shortcut only in dev mode
+  if (isDev) {
+    const isMac = process.platform === 'darwin';
+    const devToolsShortcut = isMac ? 'Command+Option+C' : 'Control+Shift+C';
+
+    const registered = globalShortcut.register(devToolsShortcut, () => {
+      if (mainWindow) {
+        if (mainWindow.webContents.isDevToolsOpened()) {
+          mainWindow.webContents.closeDevTools();
+        } else {
+          mainWindow.webContents.openDevTools();
+        }
+      }
+    });
+
+    if (!registered) {
+      console.log('Failed to register DevTools shortcut');
+    }
+  }
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -71,6 +100,13 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
+});
+
+// Unregister all shortcuts when the app quits
+app.on('will-quit', () => {
+  if (isDev) {
+    globalShortcut.unregisterAll();
+  }
 });
 
 // In this file you can include the rest of your app's specific main process

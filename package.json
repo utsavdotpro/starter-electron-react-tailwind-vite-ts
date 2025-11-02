@@ -19,6 +19,7 @@
   "productName": "starter-electron-react-tailwind-vite-ts",
   "scripts": {
     "dev": "vite",
+    "dev:web": "WEB_ONLY=true vite",
     "dev:electron": "pnpm build:electron && electron .",
     "build": "pnpm build:vite && pnpm build:electron",
     "build:vite": "vite build",

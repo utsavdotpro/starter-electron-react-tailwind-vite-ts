@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
-import { UserConfig, ConfigEnv } from 'vite';
 import { rmSync } from 'node:fs';
 import { join } from 'path';
+import { ConfigEnv, UserConfig } from 'vite';
 import electron from 'vite-plugin-electron';
 import renderer from 'vite-plugin-electron-renderer';
 import pkg from './package.json';
@@ -20,6 +20,12 @@ const buildElectron = (isDev: boolean) => ({
 });
 
 function plugins(isDev: boolean) {
+  const isWebOnly = process.env.WEB_ONLY === 'true';
+
+  if (isWebOnly) {
+    return [react()];
+  }
+
   return [
     react(),
     electron([
@@ -45,7 +51,6 @@ function plugins(isDev: boolean) {
         }
       }
     ]),
-
     renderer()
   ];
 }
