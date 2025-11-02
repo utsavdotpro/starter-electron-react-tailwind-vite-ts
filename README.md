@@ -1,37 +1,54 @@
-# Vite + React + Typescript + Electron - Starter
+[<img src="https://ik.imagekit.io/iutsav/fork_l0RKONb5l.svg" height="30" />](https://githubbox.com/utsavdotpro/starter-electron-react-tailwind-vite-ts)
 
-https://github.com/AleBL/vite-reactts-electron-starter/assets/26389226/2697ab5c-b6c5-4c28-ab40-1a237e12cf8d
+# Electron Starter Template with React + Tailwind
 
-> It is a simple starter template without unnecessary packages.
+A modern starter template for building crossplatform desktop apps using Electorn with:
 
-This very simple Starter template, utilizes [Vite](https://github.com/vitejs/vite), [Tailwind](https://tailwindcss.com/), [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/) and [Electron](https://electronjs.org/).
+[![](https://img.shields.io/badge/Electron-v30-47848F?style=for-the-badge&logo=electron)](https://www.electronjs.org/)
+[![](https://img.shields.io/badge/React-v17-61dafb?style=for-the-badge&logo=react)](https://react.dev)
+[![](https://img.shields.io/badge/Tailwind-v3-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
+[![](https://img.shields.io/badge/TypeScript-v4-3178c6?style=for-the-badge&logo=typescript)](https://typescriptlang.org)
+[![](https://img.shields.io/badge/Vite-v2-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 
-By default, the React framework is used for the interface, but you can easily use any other framework such as Vue, Preact, Angular, Svelte or anything else.
+## How to Reuse Locally?
 
-> Vite is framework agnostic
+Use `degit` to download the repository locally.
 
-## Installation
+> **❓ What is [degit](https://github.com/Rich-Harris/degit)?**  
+> degit downloads a copy of git repository with downloading its entire git history.
 
-Clone this repo and install all dependencies  
-`yarn` or `npm install`
+Install degit globally.
 
-## Development
+```bash
+pnpm install -g degit
+```
 
-`yarn dev` or `npm run dev`
+Download the latest version
 
-## Build
+```bash
+degit utsavdotpro/starter-chrome-extension-react-tailwind-webpack-ts
+```
 
-`yarn build` or `npm run build`
+## Getting Started
 
-## Publish
+### Installation
 
-`yarn dist` or `npm run dist`
+```bash
+pnpm install
+```
 
-## More advanced templates  
+### Development
 
-If you are looking for more advanced templates than this, please go to one of the following links (these are some other links out of the **[awesome-vite](https://github.com/vitejs/awesome-vite)** repo) or you can help me make this template better 🙂  
+```bash
+pnpm dev
+```
 
-Links: 
-- [vite-react-electron](https://github.com/caoxiemeihao/vite-react-electron)
-- [electron-vite-react](https://github.com/twstyled/electron-vite-react)
-- [vite-electron-esbuild-starter](https://github.com/jctaoo/vite-electron-esbuild-starter)
+### Build for Production
+
+```bash
+pnpm build
+```
+
+## License
+
+MIT

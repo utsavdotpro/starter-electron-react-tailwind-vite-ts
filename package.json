@@ -6,7 +6,7 @@
   "author": {
     "name": "Utsav Barnwal"
   },
-  "description": "Starter using Vite 2+ React +Typescript + Electron + Tailwind for fast prototyping.",
+  "description": "Starter tempalte for Electron with React and Tailwind in Typescript built with Vite",
   "keywords": [
     "vite",
     "react",
